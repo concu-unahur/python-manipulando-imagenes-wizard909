@@ -25,6 +25,7 @@ Luego lo siguiente:
 * Recorré la lista y andá concatenando (de a 2 o de a 3, por ejemplo).
 * Medí el tiempo que tardás desde bajar hasta terminar de concatenar.
 * Ahora lo mismo pero con threads: uno que baja y otro que concatena.
+* Medí de nuevo el tiempo.
 
 ## Efectos en imágenes
 
