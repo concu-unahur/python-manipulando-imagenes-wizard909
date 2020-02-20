@@ -18,7 +18,7 @@ Todos los ejemplos leen y escriben en la carpeta `imagenes` que está en este mi
 
 ## Concatenando imágenes
 
-Fijate `concatenacion.py` y familiarizate con su uso. Concantená varias imágenes (pueden ser más de 2), tanto horizontal como vertical.
+Fijate `concatenacion.py` y familiarizate con su uso. Concantená varias imágenes (pueden ser más de 2), tanto horizontal como verticalmente.
 
 Luego lo siguiente:
 * Usando la clase pasada `python-buscando-imagenes` armate una lista con `ruta+archivo` de unas cuántas imágenes (20, 30, o algo así)
