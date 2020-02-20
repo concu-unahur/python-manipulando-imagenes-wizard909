@@ -1,6 +1,6 @@
 import numpy as np
 from PIL import Image
-from archivos import leer_imagen, escribir_imagen, leer_imagen2, escribir_imagen2, armar_ruta
+from archivos import leer_imagen, escribir_imagen
 # from skimage import exposure
 # import cv2
 
