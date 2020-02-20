@@ -1,8 +1,7 @@
 import numpy as np
 from PIL import Image
 from archivos import leer_imagen, escribir_imagen
-# from skimage import exposure
-# import cv2
+
 
 def concatenar_horizontal(imagenes):
   min_img_shape = sorted([(np.sum(i.size), i.size) for i in imagenes])[0][1]
@@ -17,12 +16,3 @@ imagen2 = leer_imagen('2.jpg')
 
 escribir_imagen('concatenada-vertical.jpg', concatenar_vertical([imagen1, imagen2]))    
 escribir_imagen('concatenada-horizontal.jpg', concatenar_horizontal([imagen1, imagen2]))    
-
-
-
-# imagen1 = leer_imagen2('1.jpg')
-# escribir_imagen2('contraste.jpg', contraste_adaptativo(imagen1))    
-
-
-# res = cv2.resize(imagen1,None,fx=2, fy=2)#, interpolation = cv2.INTER_CUBIC)
-# cv2.imwrite(armar_ruta('resizecv2.jpg'),res)
