@@ -11,15 +11,15 @@ def rotacion(img, angulo):
   img_rot = transform.rotate(img,angulo)
   return img_rot
 
-def rescalado(img, ancho, alto):
+def redimensiona(img, ancho, alto):
   img_resc = transform.resize(img,(ancho,alto))
   return img_resc
 
 imagen1 = leer_imagen2('1.jpg')
-imagen2 = leer_imagen2('2.jpg')
+# imagen2 = leer_imagen2('2.jpg')
 escribir_imagen2('contraste.jpg', contraste_adaptativo(imagen1))    
 escribir_imagen2('rotacion.jpg', rotacion(imagen1,25))    
-escribir_imagen2('rescalado.jpg', rescalado(imagen1,500,500))
+escribir_imagen2('redim.jpg', redimensiona(imagen1,500,500))
 # escribir_imagen2('rescalado2.jpg', rescalado(imagen2,100,100))
 
 # coleccion = io.ImageCollection(armar_ruta('rescalado.jpg'),armar_ruta('rescalado2.jpg'))
