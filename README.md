@@ -5,7 +5,7 @@
 Para instalar las dependencias del proyecto ejecutar lo siguiente:
 
 ```
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ## Organización
