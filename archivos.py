@@ -1,10 +1,10 @@
-import os
 from skimage import io, img_as_ubyte
+from pathlib import Path
 
-carpeta_imagenes = './imagenes'
+cwd = Path.cwd()
 
 def armar_ruta(nombre):
-  return os.path.join(carpeta_imagenes, nombre)
+  return (cwd / 'imagenes' / nombre).resolve()
 
 def leer_imagen(nombre):
   return io.imread(armar_ruta(nombre))
