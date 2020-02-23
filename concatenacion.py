@@ -1,15 +1,28 @@
-import numpy as np
-from PIL import Image
+import cv2
 from archivos import leer_imagen, escribir_imagen
 
 
 def concatenar_horizontal(imagenes):
-  min_img_shape = sorted([(np.sum(i.size), i.size) for i in imagenes])[0][1]
-  return np.hstack(list((np.asarray(i.resize(min_img_shape, Image.ANTIALIAS)) for i in imagenes)))
+  # Buscamos el alto menor entre todas las imágenes
+  alto_minimo = min(im.shape[0] for im in imagenes)
+
+  # Redimensionamos las imágenes para que tengan todas el mismo alto
+  imagenes_redimensionadas = [cv2.resize(im, (int(im.shape[1] * alto_minimo / im.shape[0]), alto_minimo))
+                    for im in imagenes]
+
+  # Concatenamos
+  return cv2.hconcat(imagenes_redimensionadas)
 
 def concatenar_vertical(imagenes):
-  min_img_shape = sorted([(np.sum(i.size), i.size) for i in imagenes])[0][1]
-  return np.vstack(list((np.asarray(i.resize(min_img_shape, Image.ANTIALIAS)) for i in imagenes)))
+  # Buscamos el ancho menor entre todas las imágenes
+  ancho_minimo = min(im.shape[1] for im in imagenes)
+
+  # Redimensionamos las imágenes para que tengan todas el mismo ancho
+  imagenes_redimensionadas = [cv2.resize(im, (ancho_minimo, int(im.shape[0] * ancho_minimo / im.shape[1])))
+                    for im in imagenes]
+
+  # Concatenamos
+  return cv2.vconcat(imagenes_redimensionadas)
 
 imagen1 = leer_imagen('1.jpg')
 imagen2 = leer_imagen('2.jpg')
