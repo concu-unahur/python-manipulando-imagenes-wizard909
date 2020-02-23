@@ -1,10 +1,10 @@
 from skimage import io, img_as_ubyte
 from pathlib import Path
 
-cwd = Path.cwd()
+directorio_actual = Path.cwd()
 
 def armar_ruta(nombre):
-  return (cwd / 'imagenes' / nombre).resolve()
+  return (directorio_actual / 'imagenes' / nombre).resolve()
 
 def leer_imagen(nombre):
   return io.imread(armar_ruta(nombre))
