@@ -1,8 +1,6 @@
 import cv2
 from archivos import leer_imagen, escribir_imagen
 from APIclass import *
-from Main import *
-
 
 def concatenar_horizontal(imagenes):
   # Buscamos el alto menor entre todas las imágenes
@@ -25,35 +23,4 @@ def concatenar_vertical(imagenes):
 
   # Concatenamos
   return cv2.vconcat(imagenes_redimensionadas)
-"""
-imagen1 = leer_imagen('1.jpg')
-imagen2 = leer_imagen('2.jpg')
-"""
 
-listas_nombre_imagenes_Pares = []
-aux = []
-i = 0
-while (len(api.lista_nombre_imagenes) < 2):
-
-  #lista_nombre_imagenes = [[imagen1, imagen2], [imagen3,imagen4], etc]
-  #aux = [leer_imagen(api.lista_nombre_imagenes.pop(i)),leer_imagen(api.lista_nombre_imagenes.pop(i))]
-  listas_nombre_imagenes_Pares.append(leer_imagen(api.lista_nombre_imagenes[0]))
-  #aux.append(leer_imagen(api.lista_nombre_imagenes[i+1]))
-  print("creando ruta imagen")
-  #api.lista_nombre_imagenes.pop(i)
-  api.lista_nombre_imagenes.pop(i)
-  i = 0
-  #listas_nombre_imagenes_Pares.append(aux)
-  #aux.clear()
-
-
-"""
-escribir_imagen('concatenada-vertical.jpg', concatenar_vertical([imagen1, imagen2]))    
-escribir_imagen('concatenada-horizontal.jpg', concatenar_horizontal([imagen1, imagen2]))    
-"""
-
-for i in (api.lista_nombre_imagenes):
-  print("Concatenando en vertical")
-  escribir_imagen(f'concatenada-vertical{i}.jpg', concatenar_vertical(i))  
-  print("Concatenando en horizontal")
-  escribir_imagen(f'concatenada-horizontal{i}.jpg', concatenar_horizontal(i)) 

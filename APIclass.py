@@ -7,9 +7,10 @@ class PixabayAPI:
     self.key = key
     self.carpeta_imagenes = carpeta_imagenes
     self.lista_nombre_imagenes = []
-    self.lista_ruta_archivo = []
+  
     
   def buscar_imagenes(self, query, cantidad):
+
     # URL de búsqueda. Ver la documentación en https://pixabay.com/api/docs/#api_search_images
     url = f'https://pixabay.com/api/?key={self.key}&per_page={cantidad}&q={query}&image_type=photo&lang=es'
 
@@ -17,28 +18,6 @@ class PixabayAPI:
     response = requests.get(url)
     jsonResponse = json.loads(response.text)
 
-    # La respuesta tiene esta pinta:
-    # {
-    # 	"total": 4692,
-    # 	"totalHits": 500,
-    # 	"hits": [{
-    # 			"id": 195893,
-    # 			"pageURL": "https://pixabay.com/en/blossom-bloom-flower-195893/",
-    # 			"type": "photo",
-    # 			"tags": "blossom, bloom, flower",
-    # 			"largeImageURL": "https://pixabay.com/get/ed6a99fd0a76647_1280.jpg",
-    #       ... más campos que no interesan
-    # 		}, {
-    #       ...otra imagen
-    #     }
-    # 	]
-    # }
-    #
-    # Pero solo nos interesa el campo "largeImageURL" que está dentro de la lista de "hits".
-    # Para que la función devuelva eso usamos un map, que en Wollok sería algo así:
-    #
-    # jsonResponse.hits.map { x => x.largeImageURL }
-    #
     # Pero en Python las funciones de listas son funciones globales y no métodos, así que queda así:
     return map(lambda h: h['largeImageURL'], jsonResponse['hits'])
 
@@ -51,12 +30,10 @@ class PixabayAPI:
     # que es el nombre del archivo
     nombre_imagen = url.split('/')[-1]
 
-    self.lista_nombre_imagenes.append(nombre_imagen)
-
     # Armo la ruta final del archivo, 
     # el os.path.join mete las barritas en el medio
     ruta_archivo = os.path.join(self.carpeta_imagenes, nombre_imagen)
     with open(ruta_archivo, 'wb') as archivo:
       archivo.write(bytes_imagen.content)
-      self.lista_ruta_archivo.append(ruta_archivo)
-      self.lista_nombre_imagenes.append(nombre_imagen)
+
+    self.lista_nombre_imagenes.append(nombre_imagen)
