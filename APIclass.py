@@ -29,11 +29,12 @@ class PixabayAPI:
     # y me quedo con el último pedazo - [-1] -, 
     # que es el nombre del archivo
     nombre_imagen = url.split('/')[-1]
-
+    self.lista_nombre_imagenes.append(nombre_imagen)
+    
     # Armo la ruta final del archivo, 
     # el os.path.join mete las barritas en el medio
     ruta_archivo = os.path.join(self.carpeta_imagenes, nombre_imagen)
     with open(ruta_archivo, 'wb') as archivo:
       archivo.write(bytes_imagen.content)
 
-    self.lista_nombre_imagenes.append(nombre_imagen)
+  
