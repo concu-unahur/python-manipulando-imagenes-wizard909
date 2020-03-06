@@ -10,15 +10,16 @@ logging.basicConfig(format='%(asctime)s.%(msecs)03d [%(threadName)s] - %(message
 carpeta_imagenes = './imagenes'
 query = 'gatos'
 api = PixabayAPI('15336427-98dc43b484029d2f0562fe03b', carpeta_imagenes)
-listas_nombre_imagenes_Pares = []
+imagenes_leidas = []
 concatenar_imagen = threading.Thread()
 
+monitor0 = threading.Condition()
 monitor1 = threading.Condition()
 monitor2 = threading.Condition()
 
 #Buscando imagenes
 logging.info(f'Buscando imagenes de {query}')
-urls = api.buscar_imagenes(query, 7)
+urls = api.buscar_imagenes(query, 4)
 
 #Descargando Imagenes
 for u in urls:
@@ -28,37 +29,45 @@ for u in urls:
   
 #Espernado para que descargen
 #CORREGIR CON THREADS
-print("esperando 5 segundos, a que descdarguen las imagenes")
-time.sleep(5)
+print("esperando 3 segundos, a que descdarguen las imagenes")
+time.sleep(3)
 
 #Iniciando Thread que leen 2 imagenes
-threading.Thread(target= leerDosImagenesDescargadas).start()
+with monitor0:
+  while True:
+    while (len(api.lista_nombre_imagenes) >= 2):
+      imagenDescargada1= api.lista_nombre_imagenes[0]
+      imagenDescargada2= api.lista_nombre_imagenes[1]
+      threading.Thread(target= leerDosImagenesDescargadas, args= [imagenDescargada1,imagenDescargada2]).start()
 
 #Iniciando Thread que leen 2 imagenes
-threading.Thread(target= concatenarDosImagenesLeidas).start()
+with monitor1:
+  p = 0
+  while True:
+    while (len(imagenes_leidas) >= 2):
+
+      imagenleida1 = imagenes_leidas[p]
+      imagenleida2 = imagenes_leidas[p+1]
+      threading.Thread(target= concatenarDosImagenesLeidas, args= [[imagenleida1,imagenleida2]]).start()
+      p += 2
 
 
 ###############################FUNCIONES#######################################
 
 #LEER IMAGEN
 #Creando una lista con 2 rutas de imagen como elementos y agregandolas a otra lista
-def leerDosImagenesDescargadas():
-  global listas_nombre_imagenes_Pares
-
-  while (len(api.lista_nombre_imagenes) > 2):
-    monitor1.wait()
-    monitor1.wait()
-    logging.info("Leyendo 2 imagenes")
-    #tiene que quedar asi/////lista = [[imagen1,imagen2],[imagen3,imagen4],[imagen5,imagen6]
-    listas_nombre_imagenes_Pares.append([leer_imagen(api.lista_nombre_imagenes.pop(0)),leer_imagen(api.lista_nombre_imagenes.pop(0))])
+def leerDosImagenesDescargadas(imagen1,imagen2):
+  global imagenes_leidas
+  logging.info("Leyendo 2 imagenes")
+  imagenes_leidas.append([leer_imagen(imagen1),leer_imagen(imagen2)])
 
 #Concatenando de a listas con 2 imagenes [imagen1,imagen2]
-def concatenarDosImagenesLeidas(imagenes):
-  global listas_nombre_imagenes_Pares
+def concatenarDosImagenesLeidas(DosImagenesLeidas):
+  global imagenes_leidas
 
   with monitor2:
     i = 1
-    for l in (listas_nombre_imagenes_Pares):
+    for l in (imagenes_leidas):
       logging.info("Concatenando")
       escribir_imagen(f'concatenada-vertical{i}.jpg', concatenar_vertical(l))  
       escribir_imagen(f'concatenada-horizontal{i}.jpg', concatenar_horizontal(l)) 
