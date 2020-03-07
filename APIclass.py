@@ -1,12 +1,14 @@
 import requests
 import json
 import os
+import logging
 
 class PixabayAPI:
-  def __init__(self, key, carpeta_imagenes):
+  def __init__(self, key, carpeta_imagenes,monitor0):
     self.key = key
     self.carpeta_imagenes = carpeta_imagenes
     self.lista_nombre_imagenes = []
+    self.monitor0 = monitor0
   
     
   def buscar_imagenes(self, query, cantidad):
@@ -22,6 +24,7 @@ class PixabayAPI:
     return map(lambda h: h['largeImageURL'], jsonResponse['hits'])
 
   def descargar_imagen(self, url):
+
     # Bajo la imagen (una chorrera de bytes)
     bytes_imagen = requests.get(url)
 
@@ -29,12 +32,15 @@ class PixabayAPI:
     # y me quedo con el último pedazo - [-1] -, 
     # que es el nombre del archivo
     nombre_imagen = url.split('/')[-1]
-    self.lista_nombre_imagenes.append(nombre_imagen)
-    
+
     # Armo la ruta final del archivo, 
     # el os.path.join mete las barritas en el medio
     ruta_archivo = os.path.join(self.carpeta_imagenes, nombre_imagen)
     with open(ruta_archivo, 'wb') as archivo:
       archivo.write(bytes_imagen.content)
+    
+    with self.monitor0:
+      self.lista_nombre_imagenes.append(nombre_imagen)
+      self.monitor0.notify()
 
   
